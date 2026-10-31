@@ -24,4 +24,6 @@ Built on [tobi/bb-bots-sidebar](https://github.com/tobi/bb-bots-sidebar) by Tobi
 
 ## License
 
-None yet.
+MIT. See `LICENSE`. This license covers this spec only. It grants nothing for tobi/bb-bots-sidebar, which has its own terms.
+
+Tested against Bots Sidebar 1.1.0.
