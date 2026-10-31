@@ -4,13 +4,13 @@ A scripted owner for cold runs of `BUILD.md`. The person driving the test answer
 
 ## Who
 
-Jordan runs a one-person design studio and owns a rental unit. Timezone America/New_York.
+Jordan is a freelance product designer and owns a rental unit. Timezone America/New_York.
 
 ## Answers
 
 | Topic | Answer |
 |---|---|
-| Goal | Keep client work, money and the rental moving without me chasing it. |
+| Goal | Keep client work, money and the rental moving without me chasing it. Call me Jordan. |
 | Areas | Client work, money, the rental unit, research. |
 | Time sinks | Chasing unpaid invoices, comparing contractor quotes for the rental, weekly planning. |
 | Tools | Bots may read and write files in the team home and read the web. Nothing else. No email. |

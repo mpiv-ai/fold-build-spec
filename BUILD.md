@@ -13,7 +13,7 @@ You are the build agent. The person you are talking to is the **owner**. Work th
 - Do the preflight first. It only reads. If something required is missing, stop and report it.
 - Ask the interview questions one at a time. Wait for each answer.
 - Build nothing until the owner approves your proposal. Writing files, creating bots and creating projects all count as building.
-- After each tier, report and ask whether to continue. The owner can stop after any tier.
+- After each tier, report and ask whether to continue. The owner can stop after any tier. When the owner stops, or the last tier is done, give the final report in section 7.
 - Write your own implementation against the plugin as it is installed today. Do not modify or fork the plugin. Do not copy code from it.
 - Use plain shell, Python or Node for the commands you write. Keep every file you write in the team home (section 3.1).
 - Never put credentials in bot state, in team files, or in a packet.
@@ -54,7 +54,7 @@ Run these checks before you ask the owner anything. They only read. Show the own
 6. **Bot-to-bot messages.** Read what `bb bots message` does in this version. In 1.1.0 it posts into the bot's first conversation. It does not open a new conversation and it does not report back. That is fine for an FYI. Handing off work needs the `route` command you will build.
 7. **Child reporting.** Run `bb thread update --help`. It must offer `--parent-thread`. bb reports a child conversation's result to its parent. The route command depends on this.
 8. **Schedules (Tier 2 only).** Run `bb automation --help` and `bb automation create --help`. Tier 2 needs agent automations with `--cron`, `--in` or `--at`, and `--target-thread`. If they are missing, Tier 2 is unavailable.
-9. **Launch defaults.** Run `bb provider list` and `bb provider models <provider>` for the provider you are running on. Record the provider, its default model, and a reasoning level it lists. Bot conversations will start with these unless the owner chooses otherwise.
+9. **Launch defaults.** Run `bb provider list` and `bb provider models <provider>` for the provider you are running on. Record the provider, its default model, and a reasoning level it lists. If the table and the `--json` output disagree on the default, use the model the JSON marks as default. Bot conversations will start with these unless the owner chooses otherwise.
 
 If any of checks 1 to 7 fails, stop. Tell the owner what is missing and what would fix it. Do not work around a missing core capability.
 
@@ -75,9 +75,9 @@ Tell the owner, in a few lines, which parts the plugin already provides and whic
 
 ## 2. Interview
 
-Ask at most eight questions, one at a time. Each question offers a default. The owner can answer "default". Keep each question to two or three lines. Do not ask about anything you can find out yourself.
+Ask at most eight questions, one at a time. Each question offers a default. The owner can answer "default". Keep each question to two or three lines. Do not ask about anything you can find out yourself. Use the name the owner gives you. Do not take a name from the machine name, file paths or accounts.
 
-1. **Goal.** What should this team help you do? Default: keep my work and personal admin moving without me chasing it.
+1. **Goal.** What should this team help you do, and what should the bots call you? Default: keep my work and personal admin moving without me chasing it; call me "owner".
 2. **Areas.** Which areas should the team cover? Name three to five. Default: work projects, money, home, research.
 3. **Time sinks.** What takes your time that you would hand off first? Default: follow-ups, comparing options, weekly planning.
 4. **Tools.** What may bots read, and what may they change? Default: read and write files in the team home; read the web; change nothing else.
@@ -238,7 +238,7 @@ Write it from the owner's answers. Use these sections, in plain sentences:
    - *Assign*: work the sender is accountable for and delegates down the org chart. `route --kind assign`. Follows the org chart rule.
 5. **Packet.** Every handoff names: objective, owner (who does the work), context, constraints, acceptance criteria, and the evidence to return. A reply includes the evidence, not only a claim of completion.
 6. **Integration.** The sender stays accountable for each child conversation until it has read the result and either used it or recorded a blocker. When relaying a bot's result, link it or quote it. Do not paraphrase it into something it did not say.
-7. **Follow-ups.** A routed conversation reports to its parent when it finishes. Do not poll it. Do not wait in a loop. (Tier 2 adds wakeups for anything else.)
+7. **Follow-ups.** A routed conversation reports to its parent when it finishes. Do not poll it. Do not wait in a loop. bb also posts a short system note when a conversation becomes your child, and a report for each child that finishes. While other children are still pending, do not reply with a status update; wait for the rest and then integrate. (Tier 2 adds wakeups for anything else.)
 8. **Autonomy.** The owner's rule from question 6.
 9. **Approval list.** Each item, in the owner's words. For an item on the list: prepare the result, do not perform the action, and ask the owner once. State what will happen, the risk, and the exact reply that approves it. Approval for one action does not cover another.
 10. **Boundaries.** The off-limits items. Refuse them, say which boundary applies, and offer what you can do instead. Do not read, open or summarize off-limits material, even to check what it is.
@@ -325,6 +325,7 @@ The lead gets a cron automation, at the time the owner chose, in a standing `Dig
 - The digest covers what changed since the last one: finished routed work with links, failures, pending approvals, and stalled work (a routed conversation with no movement in 24 hours).
 - Use the format the owner chose. Default: at most five lines, each with a link.
 - If nothing changed, the digest says "No change."
+- State only what the sources show. Work that has not finished is listed as pending, not as done or passed.
 - Delivering the digest outside bb is an external send. It is on the approval list unless the owner approved that channel.
 
 ### 4.4 Tier 2 tests
@@ -334,7 +335,7 @@ The lead gets a cron automation, at the time the owner chose, in a standing `Dig
 3. Run the digest once. Confirm it links the Tier 1 test conversations.
 4. Confirm a second `sync` reports pulses unchanged.
 
-Report and ask whether to continue to Tier 3.
+Report the Tier 2 results and ask whether to continue to Tier 3.
 
 ---
 
