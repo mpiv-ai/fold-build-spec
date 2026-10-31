@@ -261,7 +261,7 @@ Behavior:
 3. Find the sender: the bot that owns `BB_THREAD_ID`, using the plugin's thread-to-bot lookup. The sender may be none, for example the build conversation.
 4. `--kind` defaults to `route`. For `assign`, apply the org chart rule with the sender. Refuse a violation with a message that names the rule. A sender of none may assign to anyone.
 5. Check the packet. Warn on stderr when it never mentions an objective, acceptance criteria or evidence. Send it anyway.
-6. Create a new conversation that belongs to the target bot, through the plugin's create-conversation method. Use the roster's `launch` values, the team project (or `--project`), the project's default environment, and the packet as the first message. Do not use `bb thread spawn` for this. A spawned thread has no bot identity, memory or tools, and a child spawned from a bot's conversation belongs to the sender's bot.
+6. Create a new conversation that belongs to the target bot, through the plugin's create-conversation method. Use the roster's `launch` values, the team project (or `--project`), the project's default environment, and the packet as the first message. If the request records where each launch value came from, mark every launch value as an explicit choice. Otherwise bb may replace it with its own default, and the conversation can start on a different provider. After creating the conversation, confirm with `bb thread show` that it runs on the intended provider. Do not use `bb thread spawn` for this. A spawned thread has no bot identity, memory or tools, and a child spawned from a bot's conversation belongs to the sender's bot.
 7. Immediately set the new conversation's parent to `BB_THREAD_ID` with `bb thread update <new id> --parent-thread <BB_THREAD_ID>`. bb then reports the child's result to the parent. Set the title if given; otherwise use the packet's first line.
 8. Append one JSON line to `log/routes.jsonl`: time, sender, target, kind, thread IDs.
 9. Print `<Name>: @thread:<new id>` and one line telling the sender that the result will arrive in this conversation and not to poll. If the report arrives without the result text, read it with `bb thread output <new id>`.
@@ -379,10 +379,10 @@ Run each test as the owner would. Open a new conversation for the lead with the 
 
 Prepare any test material first. For the routing test, create small sample files in each of the two bots' areas so the answer has real content to integrate. For the approval test, create the files that the request would tempt a bot to remove or change. For the boundary test, create a placeholder for the off-limits material with no real content.
 
-**T1. Routing to two bots, one answer.** A request whose outcome needs pieces from two non-lead bots' areas.
+**T1. Routing to two bots, one answer.** A request that the lead owns because it spans areas, and that needs one piece from each of two non-lead bots. Weekly planning across two areas, or a choice that trades one area against another, fits. A request that sits mostly in one bot's area does not, because that bot rightly becomes the lead for it.
 
-- The lead routes to both bots. Two child conversations exist under the test conversation.
-- Each child belongs to the intended bot (plugin thread lookup) and has the test conversation as its parent.
+- The lead routes one piece to each bot itself. Two child conversations exist under the test conversation.
+- Each child belongs to the intended bot (plugin thread lookup), has the test conversation as its parent, and runs on the intended provider.
 - Each child's packet names an objective, acceptance criteria and evidence.
 - The lead's final message is one integrated answer that uses both results and links both conversations.
 - The lead did not do the specialists' work itself before routing.
