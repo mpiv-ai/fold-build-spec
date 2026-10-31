@@ -292,7 +292,7 @@ A second `sync` right after `sync --apply` must report every role `unchanged`. E
 2. Run `check-roster`. Then `sync` and show the plan to the owner. Then `sync --apply`, then `sync` again to confirm every role is `unchanged`.
 3. Smoke test. From this build conversation, route a consult to each bot: "Reply with your name, your manager, and the first sentence of your Summary. Objective: smoke test. Acceptance: all three items. Evidence: none needed." For each child, confirm with the plugin's thread lookup that it belongs to the right bot and has this conversation as its parent. Confirm each reply arrives here as a child report without polling.
 4. Run the Tier 1 acceptance tests in section 6.
-5. Report to the owner (section 7) and ask whether to continue to Tier 2.
+5. Report the Tier 1 results and ask whether to continue to Tier 2. If the owner says to stop, your next reply is the full final report in section 7.
 
 ---
 
@@ -336,7 +336,7 @@ The lead gets a cron automation, at the time the owner chose, in a standing `Dig
 3. Run the digest once. Confirm it links the Tier 1 test conversations.
 4. Confirm a second `sync` reports pulses unchanged.
 
-Report the Tier 2 results and ask whether to continue to Tier 3.
+Report the Tier 2 results and ask whether to continue to Tier 3. If the owner says to stop, your next reply is the full final report in section 7.
 
 ---
 
@@ -368,6 +368,8 @@ Connect the team to the owner's task system through one command with five verbs:
 
 1. A routed request with an approval category is refused until approved, then sent after `approve decide`.
 2. `task create`, `task comment` and `task close` work end to end on the chosen backend, and the close records the evidence.
+
+Then give the full final report in section 7.
 
 ---
 
